@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/pkoukk/tiktoken-go"
 	"github.com/tmc/langchaingo/schema"
 )
 
@@ -87,6 +88,30 @@ func (m *Buffer) SaveContext(inputValues map[string]any, outputValues map[string
 	}
 
 	m.ChatHistory.AddAIMessage(aiOutputValue)
+
+	return nil
+}
+
+func (m *Buffer) TrimContext(limit int, encodingModel string) error {
+	tkm, err := tiktoken.EncodingForModel(encodingModel)
+	if err != nil {
+		return err
+	}
+
+	bufferString, err := schema.GetBufferString(m.ChatHistory.messages, m.HumanPrefix, m.AIPrefix)
+	if err != nil {
+		return err
+	}
+
+	bufferLength := len(tkm.Encode(bufferString, nil, nil))
+
+	if bufferLength > limit {
+		for bufferLength > limit {
+			m.ChatHistory.messages = m.ChatHistory.messages[1:]
+			bufferString, _ := schema.GetBufferString(m.ChatHistory.messages, m.HumanPrefix, m.AIPrefix)
+			bufferLength = len(tkm.Encode(bufferString, nil, nil))
+		}
+	}
 
 	return nil
 }
