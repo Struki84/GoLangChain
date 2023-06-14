@@ -92,6 +92,9 @@ func (m *Buffer) SaveContext(inputValues map[string]any, outputValues map[string
 	return nil
 }
 
+// Trim context takes a token limit and encoding model to trim the conversation history.
+// Once the token limit is reached, the old messages are removed from ChatHistory.messages, the
+// token size is calculated by measuring the length of all messages converted into a string.
 func (m *Buffer) TrimContext(limit int, encodingModel string) error {
 	tkm, err := tiktoken.EncodingForModel(encodingModel)
 	if err != nil {
