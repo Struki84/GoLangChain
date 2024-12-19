@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/metaphorsystems/metaphor-go"
+	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/tools"
 )
 
@@ -64,6 +65,10 @@ func (tool *Documents) Description() string {
 	obtained from either Metaphor Search or Metaphor Search Links tool.
 	Expected input format:
 	"8U71IlQ5DUTdsherhhYA,9segZCZGNjjQB2yD2uyK,..."`
+}
+
+func (tool *Documents) Definition() *llms.FunctionDefinition {
+	return nil
 }
 
 // Call calls the Documents API with the given input and returns the formatted contents.

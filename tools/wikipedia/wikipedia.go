@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/tmc/langchaingo/callbacks"
+	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/tools"
 )
 
@@ -54,6 +55,10 @@ func (t Tool) Description() string {
 	Useful for when you need to answer general questions about 
 	people, places, companies, facts, historical events, or other subjects. 
 	Input should be a search query.`
+}
+
+func (t Tool) Definition() *llms.FunctionDefinition {
+	return nil
 }
 
 // Call uses the wikipedia api to find the top search results for the input and returns

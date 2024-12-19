@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/tmc/langchaingo/callbacks"
+	"github.com/tmc/langchaingo/llms"
 	"go.starlark.net/lib/math"
 	"go.starlark.net/starlark"
 )
@@ -25,6 +26,11 @@ func (c Calculator) Description() string {
 // Name returns the name of the tool.
 func (c Calculator) Name() string {
 	return "calculator"
+}
+
+// Definition returns the definition of the tool.
+func (c Calculator) Definition() *llms.FunctionDefinition {
+	return nil
 }
 
 // Call evaluates the input using a starlak evaluator and returns the result as a

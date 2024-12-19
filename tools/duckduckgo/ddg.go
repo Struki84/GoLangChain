@@ -2,9 +2,12 @@ package duckduckgo
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"strings"
 
 	"github.com/tmc/langchaingo/callbacks"
+	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/tools"
 	"github.com/tmc/langchaingo/tools/duckduckgo/internal"
 )
@@ -38,7 +41,28 @@ func (t Tool) Description() string {
 	return `
 	"A wrapper around DuckDuckGo Search."
 	"Free search alternative to google and serpapi."
-	"Input should be a search query."`
+	"Input should be a json string of the format:"
+	` + `
+	{
+		"query": "search query"
+	}
+	`
+}
+
+func (t Tool) Definition() *llms.FunctionDefinition {
+	return &llms.FunctionDefinition{
+		Name:        strings.ReplaceAll(t.Name(), " ", ""),
+		Description: t.Description(),
+		Parameters: map[string]any{
+			"type": "object",
+			"properties": map[string]any{
+				"query": map[string]any{
+					"type":        "string",
+					"description": "The search query",
+				},
+			},
+		},
+	}
 }
 
 // Call performs the search and return the result.
@@ -46,8 +70,15 @@ func (t Tool) Call(ctx context.Context, input string) (string, error) {
 	if t.CallbacksHandler != nil {
 		t.CallbacksHandler.HandleToolStart(ctx, input)
 	}
+	var args struct {
+		Query string `json:"query"`
+	}
 
-	result, err := t.client.Search(ctx, input)
+	if err := json.Unmarshal([]byte(input), &args); err != nil {
+		return "", err
+	}
+
+	result, err := t.client.Search(ctx, args.Query)
 	if err != nil {
 		if errors.Is(err, internal.ErrNoGoodResult) {
 			return "No good DuckDuckGo Search Results was found", nil

@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/metaphorsystems/metaphor-go"
+	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/tools"
 )
 
@@ -67,6 +68,10 @@ func (tool *Search) Description() string {
 	"'best restaurants in SF" is a bad query, whereas
 	"Here is the best restaurant in SF:" is a good query.
 	`
+}
+
+func (tool *Search) Definition() *llms.FunctionDefinition {
+	return nil
 }
 
 // Call performs a search using the Search client.

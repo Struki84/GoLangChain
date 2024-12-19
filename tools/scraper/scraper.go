@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gocolly/colly"
+	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/tools"
 )
 
@@ -81,6 +82,10 @@ func (s Scraper) Description() string {
 		Web Scraper will scan a url and return the content of the web page.
 		Input should be a working url.
 	`
+}
+
+func (s Scraper) Definition() *llms.FunctionDefinition {
+	return nil
 }
 
 // Call scrapes a website and returns the site data.

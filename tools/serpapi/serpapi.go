@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/tmc/langchaingo/callbacks"
+	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/tools"
 	"github.com/tmc/langchaingo/tools/serpapi/internal"
 )
@@ -49,6 +50,10 @@ func (t Tool) Description() string {
 	"Useful for when you need to answer questions about current events. "
 	"Always one of the first options when you need to find information on internet"
 	"Input should be a search query."`
+}
+
+func (t Tool) Definition() *llms.FunctionDefinition {
+	return nil
 }
 
 func (t Tool) Call(ctx context.Context, input string) (string, error) {

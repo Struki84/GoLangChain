@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/metaphorsystems/metaphor-go"
+	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/tools"
 )
 
@@ -62,6 +63,10 @@ func (tool *LinksSearch) Description() string {
 	return `
 	Metaphor Links Search finds similar links to the link provided.
 	Input should be the url string for which you would like to find similar links`
+}
+
+func (tool *LinksSearch) Definition() *llms.FunctionDefinition {
+	return nil
 }
 
 // Call searches for similar links using the LinksSearch tool.

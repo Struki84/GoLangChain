@@ -6,6 +6,7 @@ import (
 	"text/template"
 
 	"github.com/tmc/langchaingo/callbacks"
+	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/tools"
 	"github.com/tmc/langchaingo/tools/zapier/internal"
 )
@@ -76,6 +77,10 @@ func (t Tool) Name() string {
 
 func (t Tool) Description() string {
 	return t.description
+}
+
+func (t Tool) Definition() *llms.FunctionDefinition {
+	return nil
 }
 
 func (t Tool) Call(ctx context.Context, input string) (string, error) {

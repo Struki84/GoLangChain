@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/metaphorsystems/metaphor-go"
+	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/tools"
 )
 
@@ -146,6 +147,10 @@ func (tool *API) Description() string {
 		QUERY PARAMS
 		ids (array of strings, required)
 			An array of document IDs obtained from either /search or /findSimilar endpoints.`
+}
+
+func (tool *API) Definition() *llms.FunctionDefinition {
+	return nil
 }
 
 // Call is a function that takes a context and an input string and returns a string and an error.
